@@ -1,16 +1,22 @@
 package com.clearsky.javabase.domain.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
+import java.util.Locale;
 
+@Entity
 public class Flight {
-    public Date getAtd() {
+    public OffsetDateTime getAtd() {
         return atd;
     }
 
-    public void setAtd(Date atd) {
+    public void setAtd(OffsetDateTime atd) {
         this.atd = atd;
     }
-
 
     public String getFlightNo() {
         return flightNo;
@@ -20,7 +26,18 @@ public class Flight {
         this.flightNo = flightNo;
     }
 
+    public LocalDate getFlightDate() {
+        return flightDate;
+    }
+
+    public void setFlightDate(LocalDate flightDate) {
+        this.flightDate = flightDate;
+    }
+
+    @Id
+    private String flightId;
     private String flightNo;
-    private Date atd;
+    private OffsetDateTime atd;
+    private LocalDate flightDate;
 
 }
