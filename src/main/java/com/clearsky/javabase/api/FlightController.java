@@ -25,7 +25,7 @@ public class FlightController {
     }
 
     @PostMapping("/flight/{id}/atd")
-    public void UpdateAtd(@PathVariable String id,@RequestBody @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") OffsetDateTime date){
+    public void UpdateAtd(@PathVariable String id,@RequestBody OffsetDateTime date){
         _flightDynamicService.UpdateAtd(id,date);
     }
 }

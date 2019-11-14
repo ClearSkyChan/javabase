@@ -1,9 +1,18 @@
 package com.clearsky.javabase.application.dto;
 
+import com.clearsky.javabase.infrastructure.Zone;
+
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public class FlightDto {
+    private String flightNo;
+    @Zone()
+    private OffsetDateTime sta;
+    @Zone(id="Z")
+    private OffsetDateTime std;
+    private LocalDate flightDate;
+
     public String getFlightNo() {
         return flightNo;
     }
@@ -12,17 +21,21 @@ public class FlightDto {
         this.flightNo = flightNo;
     }
 
-    private String flightNo;
-
-    public OffsetDateTime getAtd() {
-        return atd;
+    public OffsetDateTime getSta() {
+        return sta;
     }
 
-    public void setAtd(OffsetDateTime atd) {
-        this.atd = atd;
+    public void setSta(OffsetDateTime sta) {
+        this.sta = sta;
     }
 
-    private OffsetDateTime atd;
+    public OffsetDateTime getStd() {
+        return std;
+    }
+
+    public void setStd(OffsetDateTime std) {
+        this.std = std;
+    }
 
     public LocalDate getFlightDate() {
         return flightDate;
@@ -32,5 +45,4 @@ public class FlightDto {
         this.flightDate = flightDate;
     }
 
-    private LocalDate flightDate;
 }

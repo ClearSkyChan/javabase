@@ -3,6 +3,8 @@ package com.clearsky.javabase.infrastructure;
 import com.alibaba.druid.util.StringUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -22,15 +24,18 @@ public class NewBeanPropertyRowMapper<T> extends BeanPropertyRowMapper<T> {
 
     //Contains valid true values
     public static final Set<String> TRUE_SET = new HashSet<String>(Arrays.asList("y", "yes", "true"));
-
+    private final Class<?> clazz;
 
     public NewBeanPropertyRowMapper(Class<T> mappedClass) {
         super(mappedClass);
+        clazz = mappedClass;
     }
 
     protected Object getColumnValue(ResultSet rs, int index,
                                     PropertyDescriptor pd) throws SQLException {
         Class<?> requiredType = pd.getPropertyType();
+
+
         //将Y/N等映射到boolean
         if (boolean.class.equals(requiredType) || Boolean.class.equals(requiredType)) {
             String stringValue = rs.getString(index);
@@ -45,9 +50,18 @@ public class NewBeanPropertyRowMapper<T> extends BeanPropertyRowMapper<T> {
             if(timestamp==null){
                 return null;
             }
-            Date date = rs.getDate(index);
-            Time time = rs.getTime(index);
-            ZoneId zoneID = ZoneId.of("+08:00");
+            String zonId="+08:00";
+            Field[] fields =  clazz.getDeclaredFields();
+            for(Field field : fields){
+                String n1 = pd.getName();
+                String n2 = field.getName();
+                if(n1.equals(n2)){
+                    Annotation[] anos = field.getAnnotations();
+                    Zone zone = field.getAnnotation(Zone.class);
+                    zonId =  zone.id();
+                }
+            }
+            ZoneId zoneID = ZoneId.of(zonId);
             OffsetDateTime offsetDatetime = OffsetDateTime.ofInstant(timestamp.toInstant(), zoneID);
             return offsetDatetime;
         }

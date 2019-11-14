@@ -1,21 +1,30 @@
 package com.clearsky.javabase.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.clearsky.javabase.infrastructure.Zone;
+
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.Date;
-import java.util.Locale;
 
 @Entity
 public class Flight {
-    public OffsetDateTime getAtd() {
-        return atd;
+    @Id
+    private String flightId;
+    private String flightNo;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="DEPARTURE_AIRPORT")
+    private Airport departureAirport;
+    private OffsetDateTime std;
+    private OffsetDateTime sta;
+    private OffsetDateTime atd;
+    private LocalDate flightDate;
+
+    public String getFlightId() {
+        return flightId;
     }
 
-    public void setAtd(OffsetDateTime atd) {
-        this.atd = atd;
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 
     public String getFlightNo() {
@@ -26,6 +35,35 @@ public class Flight {
         this.flightNo = flightNo;
     }
 
+    public OffsetDateTime getStd() {
+        return std;
+    }
+
+    public void setStd(OffsetDateTime std) {
+        this.std = std;
+    }
+
+    public OffsetDateTime getSta() {
+        return sta;
+    }
+
+    public void setSta(OffsetDateTime sta) {
+        this.sta = sta;
+    }
+
+    public OffsetDateTime getAtd() {
+        return atd;
+    }
+    public Airport getDepartureAirport() {
+        return departureAirport;
+    }
+    public void setDepartureAirport(Airport departureAirport) {
+        this.departureAirport = departureAirport;
+    }
+    public void setAtd(OffsetDateTime atd) {
+        this.atd = atd;
+    }
+
     public LocalDate getFlightDate() {
         return flightDate;
     }
@@ -33,11 +71,4 @@ public class Flight {
     public void setFlightDate(LocalDate flightDate) {
         this.flightDate = flightDate;
     }
-
-    @Id
-    private String flightId;
-    private String flightNo;
-    private OffsetDateTime atd;
-    private LocalDate flightDate;
-
 }
